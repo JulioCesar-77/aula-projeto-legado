@@ -34,6 +34,16 @@ def get_cliente_by_id(id):
 
     return JsonResponse(cliente_to_dict(cliente), safe=False, status=200)
 
+def put_cliente_by_id(request, id):
+    cliente = get_object_or_404(Cliente, id=id)
+    body = json.loads(request.body)
+
+    for value in ('nome', 'cpf', 'telefone', 'email'):
+        setattr(cliente, value, body.get(value))
+
+    cliente.save()
+    return JsonResponse(cliente_to_dict(cliente), status=200)
+
 
 def cliente_to_dict(cliente):
     return {
