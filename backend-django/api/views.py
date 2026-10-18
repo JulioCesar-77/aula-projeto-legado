@@ -1,28 +1,14 @@
-from .models import Cliente
+from .cliente import ClientEndPoints
 from django.http import JsonResponse
 
-def get_clientes(request):
-    if request.method != 'GET':
-        return JsonResponse(
-            {'erro': 'Método não permitido'},
+def handle_cliente(request):
+    if request.method == 'GET':
+        return ClientEndPoints.get_clientes()
+
+    if request.method == 'POST':
+        return ClientEndPoints.post_clientes(request)
+
+    return JsonResponse(
+            {'erro': 'Metodo nao permitido'},
             status=405
         )
-
-    clientes = Cliente.objects.all()
-
-    dados = [
-        cliente_to_dict(cliente)
-        for cliente in clientes
-    ]
-
-    return JsonResponse(dados, safe=False)
-
-
-def cliente_to_dict(cliente):
-    return {
-        'id': cliente.id,
-        'nome': cliente.nome,
-        'cpf': cliente.cpf,
-        'telefone': cliente.telefone,
-        'email': cliente.email,
-    }
