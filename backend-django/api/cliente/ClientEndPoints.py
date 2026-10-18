@@ -3,7 +3,8 @@ import json
 from django.shortcuts import get_object_or_404
 
 from ..models import Cliente
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+
 
 def get_clientes():
     clientes = Cliente.objects.all()
@@ -44,6 +45,11 @@ def put_cliente_by_id(request, id):
     cliente.save()
     return JsonResponse(cliente_to_dict(cliente), status=200)
 
+def delete_cliente_by_id(id):
+    cliente = get_object_or_404(Cliente, id=id)
+    cliente.delete()
+
+    return HttpResponse(status=204)
 
 def cliente_to_dict(cliente):
     return {

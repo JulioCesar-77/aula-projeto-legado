@@ -23,4 +23,9 @@ def handle_cliente_by_id(request, id=None):
     if request.method == 'PUT':
         return ClientEndPoints.put_cliente_by_id(request, id)
     if request.method == 'DELETE':
-        return ClientEndPoints.delete_cliente_by_id(request)
+        return ClientEndPoints.delete_cliente_by_id(id)
+
+    return JsonResponse(
+            {'erro': 'Metodo nao permitido'},
+            status=405
+        )
