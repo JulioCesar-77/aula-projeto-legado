@@ -1,6 +1,10 @@
 from .cliente import ClientEndPoints
 from django.http import JsonResponse, HttpResponseBadRequest
 
+from .veiculo import VeiculoEndPoints
+from django.http import JsonResponse
+
+# aq tem as func de redirect pra cada parte do projeto
 
 def handle_cliente(request):
     if request.method == 'GET':
@@ -29,3 +33,31 @@ def handle_cliente_by_id(request, id=None):
             {'erro': 'Metodo nao permitido'},
             status=405
         )
+
+def handle_veiculo(request):
+    if request.method == 'GET':
+        return VeiculoEndPoints.get_veiculos(request)
+
+    if request.method == 'POST':
+        return VeiculoEndPoints.post_veiculos(request)
+
+    return JsonResponse(
+        {'erro': 'Método não permitido'},
+        status=405
+    )
+
+
+def handle_veiculo_by_id(request, id):
+    if request.method == 'GET':
+        return VeiculoEndPoints.get_veiculo_by_id(request, id)
+
+    if request.method == 'PUT':
+        return VeiculoEndPoints.put_veiculo_by_id(request, id)
+
+    if request.method == 'DELETE':
+        return VeiculoEndPoints.delete_veiculo_by_id(request, id)
+
+    return JsonResponse(
+        {'erro': 'Método não permitido'},
+        status=405
+    )

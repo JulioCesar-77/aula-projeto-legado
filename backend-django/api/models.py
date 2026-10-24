@@ -18,7 +18,7 @@ class Veiculo(models.Model):
     modelo = models.CharField(max_length=50)
     cor = models.CharField(max_length=20)
 
-    clienteId = models.ForeignKey(
+    cliente = models.ForeignKey(
         Cliente,
         on_delete=models.PROTECT,
         related_name='veiculos'
@@ -81,9 +81,10 @@ class Permanencia(models.Model):
     )
 
     valor_total = models.DecimalField(
-        max_digits=10,
-        choices=Status.choices,
-        default=Status.ABERTO
+    max_digits=10,
+    decimal_places=2,
+    null=True,
+    blank=True
     )
 
     class Meta:
