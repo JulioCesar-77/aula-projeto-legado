@@ -41,6 +41,16 @@ def delete_veiculo_by_id(request, id):
     veiculo.delete()
     return HttpResponse(status=204)
 
+def put_veiculo_by_id(request, id):
+    veiculo = get_object_or_404(Veiculo, id=id)
+    body = json.loads(request.body)
+
+    for value in ('placa', 'marca', 'modelo', 'cor'):
+        setattr(veiculo, value, body.get(value))
+
+    veiculo.save()
+    return JsonResponse(veiculo_to_dict(veiculo), status=200)
+
 def veiculo_to_dict(veiculo):
     return {
         'id': veiculo.id,
