@@ -4,6 +4,8 @@ from django.http import JsonResponse, HttpResponseBadRequest
 from .veiculo import VeiculoEndPoints
 from django.http import JsonResponse
 
+from .vaga import VagaEndPoints 
+
 # aq tem as func de redirect pra cada parte do projeto
 
 def handle_cliente(request):
@@ -61,3 +63,34 @@ def handle_veiculo_by_id(request, id):
         {'erro': 'Método não permitido'},
         status=405
     )
+
+
+def handle_vaga(request):
+    if request.method == 'GET':
+        return VagaEndPoints.get_vagas(request)
+
+    if request.method == 'POST':
+        return VagaEndPoints.post_vagas(request)
+
+    return JsonResponse(
+        {'error': 'Método não permitido'},
+        status=405
+    )
+
+
+def handle_vaga_by_id(request, id):
+    if request.method == 'GET':
+        return VagaEndPoints.get_vaga_by_id(request, id)
+
+    if request.method == 'PUT':
+        return VagaEndPoints.put_vaga_by_id(request, id)
+
+    if request.method == 'DELETE':
+        return VagaEndPoints.delete_vaga_by_id(request, id)
+
+    return JsonResponse(
+        {'error': 'Método não permitido'},
+        status=405
+    )
+
+
